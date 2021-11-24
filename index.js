@@ -44,128 +44,94 @@ const movies = [
 ];
 // const express =require("express");
 import express from "express";
+import fs from "fs";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 
+
 dotenv.config();
+import { movieRouter } from "./routes/movie.js";
 
 const app = express();
-const PORT = 9000;
+const PORT = process.env.PORT || 9000;
 const MONGO_URL = process.env.MONGO_URL;
 // mongodb+srv://vinuppriya:<password>@cluster0.xu3bs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 app.use(express.json());
 
-async function createConnection() {
+export async function createConnection() {
   const client = new MongoClient(MONGO_URL);
   await client.connect();
   console.log("Mongodb connected");
   
   return client;
 }
-createConnection();
 
-app.get("/movies", async(request, response) => {
-  console.log(request.query);
-  let filter =request.query;
-// if(filter.rating)
-// {
-//     filter.rating=parseInt(filter.rating);
-// }
-  const client = await createConnection();
-  const movie = await client
-    .db("B27rwd")
-    .collection("movies")
-    .find(filter)
-    .toArray();
-//   const { language, rating } = request.query;
-//   let filtermovie = movies;
+export const client = await createConnection();
 
-//   if (language) {
-//     filtermovie = filtermovie.filter((mvn) => mvn.language === language);
-//   }
-//   if (rating) {
-//     filtermovie = filtermovie.filter((mvn) => mvn.rating === rating);
-//   }
 
-  response.send(movie);
-});
 
-app.get("/movies/:id", async (request, response) => {
-  const { id } = request.params;
-  const client = await createConnection();
-  const movie = await client
-    .db("B27rwd")
-    .collection("movies")
-    .findOne({ id: id });
-  console.log(movie);
-  
-  //    const result= movies.find((mvn)=> mvn.id===id);
-  //     result? response.send(result):response.send({message:"no match found"});
-  // response.send(result|| {message:"no match movie"})
-  response.send(movie);
-});
 app.get("/", (request, response) => {
   response.send("welcome");
 });
 
-app.post("/movies", async (request, response) => {
-  const data = request.body;
-  const client = await createConnection();
-  console.log(data);
-  const movie = await client
-    .db("B27rwd")
-    .collection("movies")
-    .insertMany(data);
-  console.log(movie);
+app.use("/movies",movieRouter);
+  
 
-  response.send(movie);
-});
+app.listen(PORT, () => console.log("the server is startedin", PORT));
 
-app.get("/movies/:id", async (request, response) => {
-  const { id } = request.params;
-  const client = await createConnection();
-  const result = await client
-    .db("b27rwd")
-    .collection("movies")
-    .findOne({ id: "102" });
+
+
+
+// async function getMovieById(id) {
+//     const client = await createConnection();
+//     const movie = await client
+//         .db("B27rwd")
+//         .collection("movies")
+//         .findOne({ id: id });
+//     console.log(movie);
+//     return movie;
+// }
+
+
+
+
+
+
+
 //   console.log(movie);
   //    const result= movies.find((mvn)=> mvn.id===id);
   //     result? response.send(result):response.send({message:"no match found"});
   // response.send(result|| {message:"no match movie"})
-  response.send(result);
-});
-app.get("/", (request, response) => {
-  response.send("welcome");
-});
 
-app.delete("/movies/:id", async (request, response) => {
-    const { id } = request.params;
-    const client = await createConnection();
-    const movie = await client
-      .db("B27rwd")
-      .collection("movies")
-      .deleteOne({ id: id });
-    console.log(movie);
-    
-    
-    response.send(movie);
-  });
-  app.get("/", (request, response) => {
-    response.send("welcome");
-  });
-  app.delete("/movies", async(request, response) => {
-    console.log(request.query);
-    let filter =request.query;
-  
-    const client = await createConnection();
-    const movie = await client
-      .db("B27rwd")
-      .collection("movies")
-      .delete(filter)
-      
-  
-    response.send(movie);
-  });
-  
 
-app.listen(PORT, () => console.log("the server is startedin", PORT));
+
+   //    const result= movies.find((mvn)=> mvn.id===id);
+  //     result? response.send(result):response.send({message:"no match found"});
+  // response.send(result|| {message:"no match movie"})
+
+//   app.get("/movies", async(request, response) => {
+//     console.log(request.query);
+//     let filter =request.query;
+  // if(filter.rating)
+  // {
+  //     filter.rating=parseInt(filter.rating);
+  // }
+    // const client = await createConnection();
+    // const movie = await client
+    //   .db("B27rwd")
+    //   .collection("movies")
+    //   .find(filter)
+    //   .toArray();
+  //   const { language, rating } = request.query;
+  //   let filtermovie = movies;
+  
+  //   if (language) {
+  //     filtermovie = filtermovie.filter((mvn) => mvn.language === language);
+  //   }
+  //   if (rating) {
+  //     filtermovie = filtermovie.filter((mvn) => mvn.rating === rating);
+  //   }
+  
+//     response.send(movie);
+//   });
+  
