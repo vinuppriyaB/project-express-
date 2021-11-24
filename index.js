@@ -47,6 +47,7 @@ import express from "express";
 import fs from "fs";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
+import cors from "cors";
 
 
 dotenv.config();
@@ -57,6 +58,7 @@ const PORT = process.env.PORT || 9000;
 const MONGO_URL = process.env.MONGO_URL;
 // mongodb+srv://vinuppriya:<password>@cluster0.xu3bs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 app.use(express.json());
+app.use(cors());
 
 export async function createConnection() {
   const client = new MongoClient(MONGO_URL);
