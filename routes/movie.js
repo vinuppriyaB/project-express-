@@ -30,8 +30,8 @@ router
     response.send(movie);
   })
 .put( async (request, response) => {
-    const { name} = request.query;
-    const movie = await editMovieByName(name, request);
+    const {id} = request.query;
+    const movie = await editMovieByName(id, request);
     response.send(movie);
     // const result = await client
     //   .db("B27rwd")

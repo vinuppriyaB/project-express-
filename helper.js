@@ -32,12 +32,12 @@ async function createMovie(data) {
 
 
 
-async function editMovieByName(name, request) {
+async function editMovieByName(id, request) {
     // const client = await createConnection();
     const movie = await client
         .db("B27rwd")
         .collection("movies")
-        .updateOne({ name: name }, { $set: request.body });
+        .updateOne({ id:id }, { $set: request.body });
     console.log(movie);
     return movie;
 }
