@@ -27,11 +27,11 @@ async function getMovieByfilter(filter) {
 
 async function createMovie(data) {
     // const client = await createConnection();
-    console.log(data);
+    console.log("data "+data);
     const movie = await client
         .db("B27rwd")
         .collection("movies")
-        .insertMany(data);
+        .insertOne(data);
     console.log(movie);
     return movie;
 }

@@ -13,6 +13,7 @@ router
 .route("/signup")
 .post( async(request, response) => {
     const {username,password}=request.body;
+    
     const find= await checkAvailUser(username);
     console.log(find);
    if(find==null)
@@ -37,7 +38,7 @@ router
   
   
 
-export const userRouter=router;
+export const userRouter = router;
   
   //  sample code
     // router.delete("/movies/:id", async (request, response) => {

@@ -25,9 +25,10 @@ router
   })
 .post( async (request, response) => {
     const data = request.body;
-    const movie = await createMovie(data);
+    console.log(data)
+    // const movie = await createMovie(data);
   
-    response.send(movie);
+    // response.send(movie);
   })
 .put( async (request, response) => {
     const {id} = request.query;
