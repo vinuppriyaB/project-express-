@@ -1,5 +1,15 @@
 import {createConnection} from "./index.js";
 import {client} from "./index.js";
+import bcrypt from "bcrypt";
+
+async function genPassword(password)
+{
+  const salt = await bcrypt.genSalt(10);
+  
+  const hashedPassword= await bcrypt.hash(password,salt);
+    return hashedPassword;
+}
+genPassword("password@123");
 
  async function getMovieById(id) {
     // const client = await createConnection();
@@ -18,6 +28,8 @@ async function getMovieByfilter(filter) {
         .toArray();
     return movie;
 }
+
+
 
 async function createMovie(data) {
     // const client = await createConnection();
@@ -70,6 +82,7 @@ export{
     createMovie,
     editMovieByName,
     deleteAllMovie,
-    deleteMovieByID
+    deleteMovieByID,
+    genPassword
 
 };

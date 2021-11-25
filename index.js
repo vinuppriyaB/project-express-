@@ -49,9 +49,13 @@ import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 import cors from "cors";
 
+import { movieRouter } from "./routes/movie.js";
+import { userRouter } from "./routes/user.js";
+
 
 dotenv.config();
-import { movieRouter } from "./routes/movie.js";
+
+
 
 const app = express();
 const PORT = process.env.PORT || 9000;
@@ -77,6 +81,7 @@ app.get("/", (request, response) => {
 });
 
 app.use("/movies",movieRouter);
+app.use("/user",userRouter);
   
 
 app.listen(PORT, () => console.log("the server is startedin", PORT));
