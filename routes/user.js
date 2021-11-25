@@ -2,27 +2,42 @@ import express from "express";
 // import {client} from "../index.js";
 
 import { genPassword,
+  createUser,
+  checkAvailUser
  } 
  from "../helper.js";
 
-  const router= express.Router();
+const router= express.Router();
 
 router
 .route("/signup")
 .post( async(request, response) => {
     const {username,password}=request.body;
+    const find= await checkAvailUser(username);
+    console.log(find);
+   if(find==null)
+   {
     const hashPassword = await genPassword(password);
-    response.send(hashPassword);
+    // response.send(hashPassword);
+    const userCreate = await createUser(username,hashPassword)
+    console.log(userCreate);
+    response.send(userCreate);
+
+   }
+   else{
+     response.send("username available");
+   }
+   
   })
 
   
- in 
+
  
    
   
   
-  
-    export const userRouter=router;
+
+export const userRouter=router;
   
   //  sample code
     // router.delete("/movies/:id", async (request, response) => {

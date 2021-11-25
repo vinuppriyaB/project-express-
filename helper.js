@@ -2,14 +2,8 @@ import {createConnection} from "./index.js";
 import {client} from "./index.js";
 import bcrypt from "bcrypt";
 
-async function genPassword(password)
-{
-  const salt = await bcrypt.genSalt(10);
-  
-  const hashedPassword= await bcrypt.hash(password,salt);
-    return hashedPassword;
-}
-genPassword("password@123");
+
+// genPassword("password@123");
 
  async function getMovieById(id) {
     // const client = await createConnection();
@@ -73,8 +67,32 @@ async function deleteMovieByID(id) {
     return movie;
 }
 
+async function genPassword(password)
+{
+  const salt = await bcrypt.genSalt(10);
+  
+  const hashedPassword= await bcrypt.hash(password,salt);
+    return hashedPassword;
+}
+async function createUser(username,password) {
+   
+//    console.log(username,password)
+    const user = await client
+        .db("B27rwd")
+        .collection("login")
+        .insertMany([{username:username,password:password}]);
+    console.log(user);
+    return user;
+}
+async function checkAvailUser(username){
+    const user = await client
+        .db("B27rwd")
+        .collection("login")
+        .findOne({"username":username});
+    console.log(user);
+    return user;
 
-
+}
 
 export{
     getMovieById,
@@ -83,6 +101,8 @@ export{
     editMovieByName,
     deleteAllMovie,
     deleteMovieByID,
-    genPassword
+    genPassword,
+    createUser,
+    checkAvailUser
 
 };
